@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Earmark — turn build logs into podcast episodes</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="hero">
+    <p class="kicker">🎙️ Earmark</p>
+    <h1>Turn your Markdown into a podcast episode</h1>
+    <p class="subtitle">
+      Upload a build log or project summary written in Markdown — like a SUMMARY.md —
+      and we'll script it into a fun, narrated walkthrough and read it out loud right here.
+    </p>
+  </header>
+
+  <main>
+    <section class="card upload-card">
+      <form id="upload-form">
+        <label class="dropzone" id="dropzone" for="file-input">
+          <span id="dropzone-text">Drop a .md file here, or click to browse</span>
+          <input type="file" id="file-input" name="markdown" accept=".md,.markdown,.txt" hidden>
+        </label>
+        <button type="submit" id="generate-btn">🎬 Generate episode</button>
+      </form>
+      <p class="status" id="status"></p>
+    </section>
+
+    <section class="card now-playing" id="now-playing" hidden>
+      <p class="kicker">Now playing</p>
+      <h2 id="now-playing-title"></h2>
+      <audio id="player" controls></audio>
+      <details class="transcript">
+        <summary>Show transcript</summary>
+        <p id="now-playing-script"></p>
+      </details>
+    </section>
+
+    <section class="card library">
+      <h2>Episode library</h2>
+      <ul id="episode-list"></ul>
+      <p id="empty-library" class="empty">No episodes yet — upload a Markdown file to create your first one.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Scripts are generated locally; audio is narrated by the ElevenLabs Text-to-Speech API.</p>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

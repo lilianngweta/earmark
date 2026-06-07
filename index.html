@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple Disentanglement of Style and Content in Visual Representations</title>
+  <meta name="description" content="Project page for the ICML 2023 paper 'Simple Disentanglement of Style and Content in Visual Representations' by Lilian Ngweta, Subha Maity, Alex Gittens, Yuekai Sun, and Mikhail Yurochkin." />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+  <header class="hero">
+    <div class="container">
+      <p class="venue">International Conference on Machine Learning - ICML 2023</p>
+      <h1>Simple Disentanglement of Style and Content<br />in Visual Representations</h1>
+
+      <ul class="authors">
+        <li>Lilian Ngweta</li>
+        <li>Subha Maity</li>
+        <li>Alex Gittens</li>
+        <li>Yuekai Sun</li>
+        <li>Mikhail Yurochkin</li>
+      </ul>
+
+      <nav class="links" aria-label="Paper links">
+        <a class="btn" href="https://proceedings.mlr.press/v202/ngweta23a.html" target="_blank" rel="noopener">Abstract Page</a>
+        <a class="btn" href="https://proceedings.mlr.press/v202/ngweta23a/ngweta23a.pdf" target="_blank" rel="noopener">PDF</a>
+        <a class="btn" href="https://openreview.net/forum?id=oupdxuURWD" target="_blank" rel="noopener">OpenReview</a>
+        <a class="btn" href="#bibtex">Cite</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section id="abstract" aria-labelledby="abstract-heading">
+      <h2 id="abstract-heading">Abstract</h2>
+      <p>
+        Learning visual representations with interpretable features, i.e., disentangled
+        representations, remains a challenging problem. Existing methods demonstrate some
+        success but are hard to apply to large-scale vision datasets like ImageNet. In this
+        work, we propose a simple post-processing framework to disentangle content and style
+        in learned representations from pre-trained vision models. We model the pre-trained
+        features probabilistically as linearly entangled combinations of the latent content
+        and style factors and develop a simple disentanglement algorithm based on the
+        probabilistic model. We show that the method provably disentangles content and style
+        features and verify its efficacy empirically. Our post-processed features yield
+        significant domain generalization performance improvements when the distribution
+        shift occurs due to style changes or style-related spurious correlations.
+      </p>
+    </section>
+
+    <section id="overview" aria-labelledby="overview-heading">
+      <h2 id="overview-heading">Overview</h2>
+      <p>
+        Pre-trained vision models produce feature representations that mix together
+        <em>content</em> (the semantic, label-relevant information) and <em>style</em>
+        (texture, color, domain-specific appearance, and other factors that vary across
+        environments). When the style of the data shifts &mdash; for example, moving from
+        photos to sketches or paintings &mdash; models that rely on entangled features tend to
+        generalize poorly.
+      </p>
+      <p>
+        This paper introduces a lightweight <strong>post-processing</strong> approach that
+        sits on top of an already pre-trained vision backbone. Rather than training a new
+        disentangled representation from scratch &mdash; which is difficult to scale to
+        large datasets such as ImageNet &mdash; the method models existing pre-trained
+        features as <strong>linearly entangled combinations of latent content and style
+        factors</strong>, and recovers each factor with a simple algorithm derived from this
+        probabilistic model. The authors prove that, under their modeling assumptions, the
+        algorithm <strong>provably separates content from style</strong>, and they show
+        empirically that the resulting content-only features substantially improve
+        <strong>domain generalization</strong> when distribution shift is driven by style
+        changes or by style-related spurious correlations.
+      </p>
+    </section>
+
+    <section id="why-it-matters" aria-labelledby="why-heading">
+      <h2 id="why-heading">Why it matters</h2>
+      <ul>
+        <li><strong>Scalable:</strong> works as a post-processing step on top of existing pre-trained models, avoiding the cost of training disentangled representations from scratch on large datasets like ImageNet.</li>
+        <li><strong>Theoretically grounded:</strong> comes with provable disentanglement guarantees under a simple linear probabilistic model of how content and style combine.</li>
+        <li><strong>Practically useful:</strong> the disentangled (content-only) features lead to measurable improvements in domain generalization under style-driven distribution shift and style-related spurious correlations.</li>
+      </ul>
+    </section>
+
+    <section id="bibtex" aria-labelledby="bibtex-heading">
+      <h2 id="bibtex-heading">BibTeX</h2>
+      <pre><code>@InProceedings{pmlr-v202-ngweta23a,
+  title     = {Simple Disentanglement of Style and Content in Visual Representations},
+  author    = {Ngweta, Lilian and Maity, Subha and Gittens, Alex and Sun, Yuekai and Yurochkin, Mikhail},
+  booktitle = {Proceedings of the 40th International Conference on Machine Learning},
+  pages     = {26063--26086},
+  year      = {2023},
+  editor    = {Krause, Andreas and Brunskill, Emma and Cho, Kyunghyun and Engelhardt, Barbara and Sabato, Sivan and Scarlett, Jonathan},
+  volume    = {202},
+  series    = {Proceedings of Machine Learning Research},
+  month     = {23--29 Jul},
+  publisher = {PMLR},
+  pdf       = {https://proceedings.mlr.press/v202/ngweta23a/ngweta23a.pdf},
+  url       = {https://proceedings.mlr.press/v202/ngweta23a.html}
+}</code></pre>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        Paper published in <em>Proceedings of the 40th International Conference on Machine
+        Learning (ICML 2023)</em>, PMLR Volume 202, pages 26063&ndash;26086.
+        &middot;
+        <a href="https://proceedings.mlr.press/v202/ngweta23a.html" target="_blank" rel="noopener">PMLR page</a>
+        &middot;
+        <a href="https://openreview.net/forum?id=oupdxuURWD" target="_blank" rel="noopener">OpenReview</a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
