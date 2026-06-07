@@ -7,47 +7,54 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-  <header class="hero">
-    <p class="kicker">🎙️ Earmark</p>
-    <h1>Turn your Markdown into a podcast episode</h1>
-    <p class="subtitle">
-      Upload a build log or project summary written in Markdown — like a SUMMARY.md —
-      and we'll script it into a fun, narrated walkthrough and read it out loud right here.
-    </p>
-  </header>
+  <div class="page">
+    <header class="hero">
+      <p class="brand">Earmark</p>
+      <h1>Turn your Markdown into a podcast episode</h1>
+      <p class="subtitle">
+        Upload a build log or project summary written in Markdown — like a SUMMARY.md —
+        and we'll script it into a narrated walkthrough and read it back to you here.
+      </p>
+    </header>
 
-  <main>
-    <section class="card upload-card">
-      <form id="upload-form">
-        <label class="dropzone" id="dropzone" for="file-input">
-          <span id="dropzone-text">Drop a .md file here, or click to browse</span>
-          <input type="file" id="file-input" name="markdown" accept=".md,.markdown,.txt" hidden>
-        </label>
-        <button type="submit" id="generate-btn">🎬 Generate episode</button>
-      </form>
-      <p class="status" id="status"></p>
-    </section>
+    <main>
+      <section class="card upload-card">
+        <h2 class="card-label">New episode</h2>
+        <form id="upload-form">
+          <label class="dropzone" id="dropzone" for="file-input">
+            <svg class="dropzone-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 15.5V4M12 4 8 8M12 4l4 4"/>
+              <path d="M4.5 15.5v2.25A2.25 2.25 0 0 0 6.75 20h10.5a2.25 2.25 0 0 0 2.25-2.25V15.5"/>
+            </svg>
+            <span id="dropzone-text">Drop a Markdown file here, or click to browse</span>
+            <input type="file" id="file-input" name="markdown" accept=".md,.markdown,.txt" hidden>
+          </label>
+          <button type="submit" id="generate-btn">Generate episode</button>
+        </form>
+        <p class="status" id="status"></p>
+      </section>
 
-    <section class="card now-playing" id="now-playing" hidden>
-      <p class="kicker">Now playing</p>
-      <h2 id="now-playing-title"></h2>
-      <audio id="player" controls></audio>
-      <details class="transcript">
-        <summary>Show transcript</summary>
-        <p id="now-playing-script"></p>
-      </details>
-    </section>
+      <section class="card now-playing" id="now-playing" hidden>
+        <h2 class="card-label">Now playing</h2>
+        <h3 id="now-playing-title"></h3>
+        <audio id="player" controls></audio>
+        <details class="transcript">
+          <summary>Transcript</summary>
+          <p id="now-playing-script"></p>
+        </details>
+      </section>
 
-    <section class="card library">
-      <h2>Episode library</h2>
-      <ul id="episode-list"></ul>
-      <p id="empty-library" class="empty">No episodes yet — upload a Markdown file to create your first one.</p>
-    </section>
-  </main>
+      <section class="card library">
+        <h2 class="card-label">Episode library</h2>
+        <ul id="episode-list"></ul>
+        <p id="empty-library" class="empty">No episodes yet — upload a Markdown file to create your first one.</p>
+      </section>
+    </main>
 
-  <footer>
-    <p>Scripts are generated locally; audio is narrated by the ElevenLabs Text-to-Speech API.</p>
-  </footer>
+    <footer>
+      <p>Scripts are generated locally. Narration is produced by the ElevenLabs Text-to-Speech API.</p>
+    </footer>
+  </div>
 
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>

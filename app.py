@@ -64,6 +64,21 @@ def list_episodes():
     return jsonify(load_episodes())
 
 
+@app.delete("/api/episodes/<episode_id>")
+def delete_episode(episode_id):
+    episodes = load_episodes()
+    remaining = [episode for episode in episodes if episode["id"] != episode_id]
+    if len(remaining) == len(episodes):
+        abort(404)
+
+    audio_path = GENERATED_DIR / f"{episode_id}.mp3"
+    if audio_path.is_file():
+        audio_path.unlink()
+
+    save_episodes(remaining)
+    return "", 204
+
+
 @app.get("/audio/<path:filename>")
 def serve_audio(filename):
     audio_path = GENERATED_DIR / filename

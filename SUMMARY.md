@@ -2,7 +2,7 @@
 
 This document summarizes the steps taken to build the project website for the paper
 **"Simple Disentanglement of Style and Content in Visual Representations"**
-(Ngweta, Maity, Gittens, Sun, and Yurochkin — ICML 2023, PMLR vol. 202).
+(ICML 2023).
 
 Source paper: https://proceedings.mlr.press/v202/ngweta23a/ngweta23a.pdf
 

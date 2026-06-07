@@ -13,8 +13,15 @@ const player = document.getElementById("player");
 const episodeList = document.getElementById("episode-list");
 const emptyLibrary = document.getElementById("empty-library");
 
+let currentEpisodeId = null;
+
 function formatDate(timestamp) {
   return new Date(timestamp * 1000).toLocaleString();
+}
+
+function setStatus(message, tone = "default") {
+  status.textContent = message;
+  status.className = tone === "default" ? "status" : `status is-${tone}`;
 }
 
 function renderEpisodes(episodes) {
@@ -28,23 +35,51 @@ function renderEpisodes(episodes) {
         <p class="episode-title"></p>
         <p class="episode-meta"></p>
       </div>
-      <button class="play-btn">▶ Play</button>
+      <div class="episode-actions">
+        <button class="play-btn">Play</button>
+        <button class="delete-btn" title="Delete episode" aria-label="Delete episode">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M7 7l1 12a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2l1-12"/>
+          </svg>
+        </button>
+      </div>
     `;
     item.querySelector(".episode-title").textContent = episode.title;
     item.querySelector(".episode-meta").textContent =
       `from ${episode.source_filename} · ${formatDate(episode.created_at)}`;
     item.querySelector(".play-btn").addEventListener("click", () => playEpisode(episode));
+    item.querySelector(".delete-btn").addEventListener("click", () => deleteEpisode(episode));
     episodeList.appendChild(item);
   }
 }
 
 function playEpisode(episode) {
+  currentEpisodeId = episode.id;
   nowPlaying.hidden = false;
   nowPlayingTitle.textContent = episode.title;
   nowPlayingScript.textContent = episode.script;
   player.src = episode.audio_url;
   player.play();
   nowPlaying.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+async function deleteEpisode(episode) {
+  if (!confirm(`Delete "${episode.title}"? This can't be undone.`)) return;
+
+  try {
+    const response = await fetch(`/api/episodes/${episode.id}`, { method: "DELETE" });
+    if (!response.ok) throw new Error("delete failed");
+
+    if (currentEpisodeId === episode.id) {
+      currentEpisodeId = null;
+      player.pause();
+      player.removeAttribute("src");
+      nowPlaying.hidden = true;
+    }
+    await loadEpisodes();
+  } catch (err) {
+    setStatus("Couldn't delete that episode — try again.", "error");
+  }
 }
 
 async function loadEpisodes() {
@@ -81,7 +116,7 @@ fileInput.addEventListener("change", updateDropzoneLabel);
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!fileInput.files.length) {
-    status.textContent = "Choose a Markdown file first.";
+    setStatus("Choose a Markdown file first.", "error");
     return;
   }
 
@@ -89,20 +124,20 @@ form.addEventListener("submit", async (event) => {
   formData.append("markdown", fileInput.files[0]);
 
   generateBtn.disabled = true;
-  status.textContent = "🎙️ Writing the script and recording your episode — this can take a minute...";
+  setStatus("Writing the script and recording the episode — this can take a minute…");
 
   try {
     const response = await fetch("/api/generate", { method: "POST", body: formData });
     const data = await response.json();
     if (!response.ok) {
-      status.textContent = `⚠️ ${data.error || "Something went wrong."}`;
+      setStatus(data.error || "Something went wrong.", "error");
       return;
     }
-    status.textContent = "✅ Episode is ready!";
+    setStatus("Episode is ready.", "success");
     playEpisode(data);
     await loadEpisodes();
   } catch (err) {
-    status.textContent = "⚠️ Couldn't reach the server. Is it running?";
+    setStatus("Couldn't reach the server. Is it running?", "error");
   } finally {
     generateBtn.disabled = false;
   }
